@@ -1,8 +1,17 @@
+# ===============================
+# 3) File data.yaml
+# ===============================
+
+
+# This script creates a `data.yaml` file for the YOLO training pipeline,
+# specifying the dataset path, train/val/test folders, and the class names for PCB defects.
+#
+# Questo script crea un file `data.yaml` per la pipeline di training YOLO,
+# specificando il percorso del dataset, le cartelle train/val/test e i nomi delle classi dei difetti PCB.
+
+
 import yaml    
 import os
-# ===============================
-# 2) File data.yaml
-# ===============================
 
 DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"
 
@@ -17,4 +26,4 @@ data_yaml = {
 }
 with open(os.path.join(DST_ROOT, "data.yaml"), "w") as f:
     yaml.dump(data_yaml, f, default_flow_style=False)
-print("data.yaml creato")
+print("data.yaml created")

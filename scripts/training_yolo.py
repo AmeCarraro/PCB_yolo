@@ -1,3 +1,15 @@
+# ===============================
+# 4) Yolo training
+# ===============================
+
+
+# Trains YOLOv8 on the PCB defect dataset, logs output to console and file,
+# and runs validation at the end.
+
+# Allena YOLOv8 sul dataset di difetti PCB, registra l'output su console e file,
+# ed esegue la validazione al termine.
+
+
 import os
 from ultralytics import YOLO
 import sys
@@ -5,9 +17,7 @@ import sys
 DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"
 LOG_FILE = os.path.join(DST_ROOT, "training_log.txt")
 
-# ===============================
-# Classe per scrivere su terminale e file contemporaneamente
-# ===============================
+# Class to write to both terminal and file simultaneously
 class Tee:
     def __init__(self, *files):
         self.files = files
@@ -22,18 +32,12 @@ class Tee:
 
 if __name__ == "__main__":
     os.makedirs(DST_ROOT, exist_ok=True)
-
-    # apertura log file
     log_file = open(LOG_FILE, "w", encoding="utf-8")
-
-    # sys.stdout e sys.stderr vanno sia a terminale che a file
     sys.stdout = Tee(sys.stdout, log_file)
     sys.stderr = Tee(sys.stderr, log_file)
 
-    # ===============================
-    # Addestramento YOLO
-    # ===============================
-    model = YOLO("yolov8n.pt")  # modello base
+    # YOLO Training
+    model = YOLO("yolov8n.pt")  # base model
     model.train(
         data=os.path.join(DST_ROOT, "data.yaml"),
         imgsz=640,
@@ -41,17 +45,14 @@ if __name__ == "__main__":
         batch=4,
         device=0,
         workers=0,
-        verbose=True,  # serve a mostrare output dettagliato
+        verbose=True,
         project="runs/train",
         name="PCB_defects",
         exist_ok=True
     )
 
-    # ===============================
-    # Validazione al termine del training
-    # ===============================
+    # Validation at the end of training
     metrics = model.val(data=os.path.join(DST_ROOT, "data.yaml"))
-    print("📊 Metriche validation:", metrics)
+    print("Validation metrics:", metrics)
 
-    # chiusura log
     log_file.close()

@@ -1,3 +1,5 @@
+#Code to test on a single random image
+
 import os
 import random
 from ultralytics import YOLO
@@ -9,17 +11,17 @@ os.makedirs(SAVE_DIR, exist_ok=True)
 if __name__ == "__main__":
     model = YOLO("C:\\Users\\carra\\Prova PCB\\runs\\train\\PCB_defects\\weights\\best.pt")
 
-    # scegli immagine a caso dalla cartella test
+    # Random image to test
     test_images = os.listdir(os.path.join(DST_ROOT, "test"))
     img_path = os.path.join(DST_ROOT, "test", random.choice(test_images))
 
-    print(f"🔍 Predizione su: {img_path}")
+    print(f"Prediction on: {img_path}")
     results = model.predict(
         source=img_path,
         imgsz=640,
         save=True,
-        project=SAVE_DIR,     # cartella principale dove salvare
-        name="single_try",    # sottocartella per questa predizione
-        exist_ok=True         # sovrascrive se già esiste
+        project=SAVE_DIR,
+        name="single_try",
+        exist_ok=True
     )
-    print("✅ Predizione salvata in:", results[0].save_dir)
+    print("Prediction saved in:", results[0].save_dir)

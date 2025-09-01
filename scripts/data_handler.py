@@ -1,35 +1,46 @@
+# ===============================
+# 1) Data Handler
+# ===============================
+
+# This script scans all subfolders in the PCB dataset, copies `_test` images to a destination folder,
+# and converts the corresponding `.txt` annotations to YOLO format, ignoring background labels.
+# 
+# Questo script esplora tutte le sottocartelle del dataset PCB, copia le immagini `_test` in una cartella
+# di destinazione e converte le annotazioni `.txt` corrispondenti nel formato YOLO, ignorando le etichette di background.
+
+
 import os
 import shutil
 from glob import glob
 from PIL import Image
 
-# cartelle di origine e destinazione
+# Source and destination folders
 SRC_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBData"
 DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit"
 
 DST_IMG = os.path.join(DST_ROOT, "images")
 DST_LAB = os.path.join(DST_ROOT, "labels")
 
-# crea cartelle di output se non esistono
+# Create output folders if they do not exist
 os.makedirs(DST_IMG, exist_ok=True)
 os.makedirs(DST_LAB, exist_ok=True)
 
-# scorri tutte le sottocartelle dentro PCBData
+# Scan all subfolders in PCBData
 for subdir in os.listdir(SRC_ROOT):
     full_path = os.path.join(SRC_ROOT, subdir)
     if not os.path.isdir(full_path):
         continue
 
-    # cerca la cartella con "_not" e quella senza
+    # Locate the "_not" folder and the regular folder
     subfolders = [os.path.join(full_path, d) for d in os.listdir(full_path) if os.path.isdir(os.path.join(full_path, d))]
     for sf in subfolders:
         if "_not" in os.path.basename(sf).lower():
-            # copia e formatta TUTTI i txt
+            # Copy and format ALL txt files
             for txt_file in glob(os.path.join(sf, "*.txt")):
                 base = os.path.splitext(os.path.basename(txt_file))[0]
                 dst_txt_path = os.path.join(DST_LAB, os.path.basename(txt_file))
 
-                # tenta trovare immagine corrispondente _test
+                # Attempt to find the corresponding _test image
                 img_path = None
                 for ext in [".jpg", ".png", ".jpeg"]:
                     candidate = os.path.join(DST_IMG, base + "_test" + ext)
@@ -37,7 +48,7 @@ for subdir in os.listdir(SRC_ROOT):
                         img_path = candidate
                         break
 
-                # se immagine non trovata, copia txt così com’è
+                # If the image is not found, copy the txt file as is
                 if img_path is None:
                     shutil.copy(txt_file, dst_txt_path)
                     continue
@@ -51,7 +62,7 @@ for subdir in os.listdir(SRC_ROOT):
                         line = line.strip()
                         if not line:
                             continue
-                        # separatore può essere spazio o virgola
+                        # Separator can be a space or a comma
                         parts = line.replace(",", " ").split()
                         if len(parts) != 5:
                             continue
@@ -61,9 +72,9 @@ for subdir in os.listdir(SRC_ROOT):
                         except:
                             continue
 
-                        if typ == 0:  # background → ignora
+                        if typ == 0:  # background → ignore
                             continue
-                        cls = typ - 1  # mappa 1..6 → 0..5
+                        cls = typ - 1  # map 1..6 to 0..5
 
                         # clamp box
                         x1, x2 = max(0, x1), min(W, x2)
@@ -82,8 +93,8 @@ for subdir in os.listdir(SRC_ROOT):
                     f.write("\n".join(lines_out))
 
         else:
-            # copia solo immagini _test
+            # Copy only _test images
             for img in glob(os.path.join(sf, "*_test.*")):
                 shutil.copy(img, DST_IMG)
 
-print("✅ Copiatura e conversione completate!")
+print("Copying and conversion completed!")

@@ -1,5 +1,14 @@
-#questo codice va a dividere le immaigni in una cartella split, dividendole in train validation e test
-#nel caso di train e validation saranno ovviamente inserite anche le relative labels, mentre in test no
+# ===============================
+# 2) Train_Val_Test
+# ===============================
+
+
+# This script splits the PCB dataset images into train, validation, and test sets.
+# Labels are copied for train and validation images, while test images are left without labels.
+#
+# Questo script divide le immagini del dataset PCB in set di train, validation e test.
+# Le label vengono copiate per le immagini di train e validation, mentre le immagini di test rimangono senza label.
+
 
 import os
 import shutil
@@ -8,12 +17,9 @@ import sys
 from glob import glob
 
 if __name__ == "__main__":
-    # ===============================
-    # 1) Split dataset
-    # ===============================
-    SRC_IMG = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\images"
-    SRC_LAB = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\labels"
-    SPLIT_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"  # cartella per i risultati
+    SRC_IMG = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\images" # Path to the folder containing all images
+    SRC_LAB = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\labels" # Path to the folder containing all label files
+    SPLIT_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"  # # Folder where the split datasets will be saved
     os.makedirs(SPLIT_ROOT, exist_ok=True)
 
     for split in ["train", "val", "test"]:
@@ -31,9 +37,9 @@ if __name__ == "__main__":
         split_dir = os.path.join(SPLIT_ROOT, split)
         for img in imgs:
             base = os.path.splitext(os.path.basename(img))[0]
-            # copia immagine
+            # Copy image
             shutil.copy(img, os.path.join(split_dir, base + ".jpg"))
-            # copia label
+            # Copy label
             if with_labels:
                 lab = os.path.join(SRC_LAB, base.replace("_test","") + ".txt")
                 if os.path.isfile(lab):
@@ -43,4 +49,4 @@ if __name__ == "__main__":
     copy_split(val_imgs, "val", True)
     copy_split(test_imgs, "test", False)
 
-    print(f"✅ Split completato in '{SPLIT_ROOT}': {n_train} train, {n_val} val, {len(test_imgs)} test")
+    print(f" Split completed in '{SPLIT_ROOT}': {n_train} train, {n_val} val, {len(test_imgs)} test")

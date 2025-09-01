@@ -1,3 +1,15 @@
+# ===============================
+# 5) Yolo testing
+# ===============================
+
+# YOLO tested on images without labels.
+# The script loads the trained model and runs predictions on the entire test set,
+# saving the results in the specified folder.
+
+# YOLO testato su immagini senza label.
+# Lo script carica il modello addestrato ed esegue predizioni sull'intero set di test,
+# salvando i risultati nella cartella specificata.
+
 import os
 from ultralytics import YOLO
 
@@ -6,10 +18,10 @@ SAVE_DIR = "C:\\Users\\carra\\Prova PCB\\runs"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 if __name__ == "__main__":
-    # carica modello allenato
+    # Load trained model
     model = YOLO("C:\\Users\\carra\\Prova PCB\\runs\\train\\PCB_defects\\weights\\best.pt")
 
-    # predizione su tutto il test set
+    # Prediction on the entire test set
     results = model.predict(
         source=os.path.join(DST_ROOT, "test"),
         imgsz=640,
@@ -18,4 +30,4 @@ if __name__ == "__main__":
         name="test_results",
         exist_ok=True  
     )
-    print("✅ Predizioni salvate in:", results[0].save_dir)
+    print("Predictions saved in:", results[0].save_dir)
