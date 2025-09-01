@@ -17,9 +17,12 @@ import sys
 from glob import glob
 
 if __name__ == "__main__":
-    SRC_IMG = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\images" # Path to the folder containing all images
-    SRC_LAB = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\labels" # Path to the folder containing all label files
-    SPLIT_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"  # # Folder where the split datasets will be saved
+    
+    PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Paths
+    SRC_IMG = os.path.join(PROJECT_ROOT, "PCBDatasplit", "images")  # Path to the folder containing all images
+    SRC_LAB = os.path.join(PROJECT_ROOT, "PCBDatasplit", "labels")  # Path to the folder containing all label files
+    SPLIT_ROOT = os.path.join(PROJECT_ROOT, "PCBDatasplit", "split")  # Folder where the split datasets will be saved
     os.makedirs(SPLIT_ROOT, exist_ok=True)
 
     for split in ["train", "val", "test"]:

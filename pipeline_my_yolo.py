@@ -3,7 +3,8 @@ import sys
 import os
 
 # Path to the folder where all the scripts are stored
-SCRIPT_DIR = "C:\\Users\\carra\\Prova PCB\\scripts"
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
 
 # List of scripts to run in order
 scripts = [
@@ -15,7 +16,7 @@ scripts = [
 ]
 
 def run_script(script_name):
-    script_path = os.path.join(SCRIPT_DIR, script_name)
+    script_path = os.path.join(SCRIPTS_DIR, script_name)
     print(f"\n Execute the script {script_name} ...")
     result = subprocess.run([sys.executable, script_path], text=True)
     

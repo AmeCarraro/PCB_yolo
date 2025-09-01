@@ -13,7 +13,8 @@
 import yaml    
 import os
 
-DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DST_ROOT = os.path.join(PROJECT_ROOT, "PCBDatasplit", "split")
 
 data_yaml = {
     "path": DST_ROOT,
@@ -24,6 +25,7 @@ data_yaml = {
         0: "open", 1: "short", 2: "mousebite", 3: "spur", 4: "copper", 5: "pin-hole"
     }
 }
+os.makedirs(DST_ROOT, exist_ok=True)
 with open(os.path.join(DST_ROOT, "data.yaml"), "w") as f:
     yaml.dump(data_yaml, f, default_flow_style=False)
 print("data.yaml created")

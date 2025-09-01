@@ -14,7 +14,10 @@ import os
 from ultralytics import YOLO
 import sys
 
-DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Paths
+DST_ROOT = os.path.join(PROJECT_ROOT, "PCBDatasplit", "split")
 LOG_FILE = os.path.join(DST_ROOT, "training_log.txt")
 
 # Class to write to both terminal and file simultaneously

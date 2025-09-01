@@ -13,8 +13,10 @@
 import os
 from ultralytics import YOLO
 
-DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit\\split"
-SAVE_DIR = "C:\\Users\\carra\\Prova PCB\\runs"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DST_ROOT = os.path.join(PROJECT_ROOT, "PCBDatasplit", "split")
+SAVE_DIR = os.path.join(PROJECT_ROOT, "runs")   
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 if __name__ == "__main__":

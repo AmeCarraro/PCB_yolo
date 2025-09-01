@@ -15,8 +15,10 @@ from glob import glob
 from PIL import Image
 
 # Source and destination folders
-SRC_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBData"
-DST_ROOT = "C:\\Users\\carra\\Prova PCB\\PCBDatasplit"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+SRC_ROOT = os.path.join(PROJECT_ROOT, "PCBData")
+DST_ROOT = os.path.join(PROJECT_ROOT, "PCBDatasplit")
 
 DST_IMG = os.path.join(DST_ROOT, "images")
 DST_LAB = os.path.join(DST_ROOT, "labels")
