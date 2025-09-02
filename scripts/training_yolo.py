@@ -59,3 +59,6 @@ if __name__ == "__main__":
     print("Validation metrics:", metrics)
 
     log_file.close()
+    sys.stdout = sys.__stdout__
+    sys.stderr = sys.__stderr__
+    sys.exit(0)
